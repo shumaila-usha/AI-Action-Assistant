@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Action Assistant</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='auth.css') }}?v=2"
+    >
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}?v=3"
+        defer
+    ></script>
+
+    <script
+        src="{{ url_for('static', filename='takeaway.js') }}"
+        defer
+    ></script>
+<script
+    src="{{ url_for('static', filename='reflection.js') }}?v=2"
+    defer
+></script>
+<script
+    src="{{ url_for('static', filename='weekly_report.js') }}?v=2"
+    defer
+></script>
+
+
+
+
+<script
+    src="{{ url_for('static', filename='advanced_download.js') }}?v=2"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='achievements.js') }}?v=2"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='progress_chart.js') }}?v=1"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='focus_mode.js') }}?v=1"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='focus_analytics.js') }}?v=1"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='backup_restore.js') }}?v=1"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='goal_manager.js') }}?v=2"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='smart_reminders.js') }}?v=1"
+    defer
+></script>
+
+<script
+    src="{{ url_for('static', filename='cloud_sync.js') }}?v=2"
+    defer
+></script>
+</head>
+
+<body data-user-id="{{ current_user['id'] }}">
+
+    <header class="account-bar">
+        <div class="account-user">
+            👤 Signed in as
+            <strong>{{ current_user['name'] }}</strong>
+        </div>
+
+        <form
+            class="logout-form"
+            method="POST"
+            action="{{ url_for('logout') }}"
+        >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="logout-button">
+                Log Out
+            </button>
+        </form>
+
+        <a class="account-settings-button" href="{{ url_for('account') }}">
+            Account Settings
+        </a>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="app-flash-list">
+                {% for category, message in messages %}
+                    <div class="auth-alert {{ category }}" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <h1>AI Action Assistant</h1>
+
+    <p>
+        Turn your ideas into clear and practical action plans.
+    </p>
+
+    <!-- GOAL FORM -->
+
+    <form
+        id="goal-form"
+        method="POST"
+        action="/"
+    >
+
+        <label for="goal">
+            What do you want to achieve?
+        </label>
+
+        <br><br>
+
+        <textarea
+            id="goal"
+            name="goal"
+            placeholder="Example: I want to prepare for a job interview..."
+            required
+        >{{ goal }}</textarea>
+
+        <br><br>
+
+        <label for="deadline">
+            When do you want to achieve it?
+        </label>
+
+        <br><br>
+
+        <input
+            type="date"
+            id="deadline"
+            name="deadline"
+            value="{{ deadline }}"
+            required
+        >
+
+        <br><br>
+
+        <label for="experience_level">
+            What is your current experience level?
+        </label>
+
+        <br><br>
+
+        <select
+            id="experience_level"
+            name="experience_level"
+            required
+        >
+
+            <option value="">
+                Select your level
+            </option>
+
+            <option
+                value="Beginner"
+                {% if experience_level == "Beginner" %}
+                    selected
+                {% endif %}
+            >
+                Beginner
+            </option>
+
+            <option
+                value="Intermediate"
+                {% if experience_level == "Intermediate" %}
+                    selected
+                {% endif %}
+            >
+                Intermediate
+            </option>
+
+            <option
+                value="Advanced"
+                {% if experience_level == "Advanced" %}
+                    selected
+                {% endif %}
+            >
+                Advanced
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <label for="daily_time">
+            How much time can you give daily?
+        </label>
+
+        <br><br>
+
+        <select
+            id="daily_time"
+            name="daily_time"
+            required
+        >
+
+            <option value="">
+                Select available time
+            </option>
+
+            <option
+                value="30 minutes"
+                {% if daily_time == "30 minutes" %}
+                    selected
+                {% endif %}
+            >
+                30 minutes
+            </option>
+
+            <option
+                value="1 hour"
+                {% if daily_time == "1 hour" %}
+                    selected
+                {% endif %}
+            >
+                1 hour
+            </option>
+
+            <option
+                value="2 hours"
+                {% if daily_time == "2 hours" %}
+                    selected
+                {% endif %}
+            >
+                2 hours
+            </option>
+
+            <option
+                value="3 or more hours"
+                {% if daily_time == "3 or more hours" %}
+                    selected
+                {% endif %}
+            >
+                3 or more hours
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <input
+            type="hidden"
+            id="performance_history"
+            name="performance_history"
+            value="[]"
+        >
+
+        <input
+            type="hidden"
+            id="saved_action_plan"
+            name="saved_action_plan"
+            value="[]"
+        >
+
+        <button type="submit">
+            Create My Action Plan
+        </button>
+
+    </form>
+
+    <!-- GENERATED PLAN -->
+
+    {% if goal and action_plan %}
+
+        <hr>
+
+        <!-- GOAL -->
+
+        <h2>Your Goal</h2>
+
+        <p>{{ goal }}</p>
+
+        <!-- ACTION PLAN PROGRESS -->
+
+        <h2>Your Progress</h2>
+
+        <section
+            id="progress-tracker"
+            data-goal="{{ goal }}"
+        >
+
+            <div class="progress-bar">
+                <div id="progress-fill"></div>
+            </div>
+
+            <p id="progress-text">
+                0 of {{ action_plan|length }}
+                steps completed (0%)
+            </p>
+
+        </section>
+
+        <!-- SMART ACTION PLAN -->
+
+        <h2>Your Smart Action Plan</h2>
+
+        <ol id="action-plan-list">
+
+            {% for step in action_plan %}
+
+                <li class="plan-step">
+
+                    <input
+                        type="checkbox"
+                        class="step-checkbox"
+                        id="step-{{ loop.index }}"
+                    >
+
+                    <label
+                        for="step-{{ loop.index }}"
+                        class="step-text"
+                    >
+                        {{ step }}
+                    </label>
+
+                </li>
+
+            {% endfor %}
+
+        </ol>
+
+        <!-- GOAL RISK PREDICTOR -->
+
+        {% if goal_risk %}
+
+            <hr>
+
+            <h2>🎯 Goal Risk Predictor</h2>
+
+            <section
+                id="goal-risk-section"
+                class="goal-risk-card"
+                data-risk-status="{{ goal_risk.status }}"
+            >
+
+                <div class="goal-risk-header">
+
+                    <h3>
+                        Current Status:
+
+                        <span id="goal-risk-status">
+                            {{ goal_risk.status }}
+                        </span>
+                    </h3>
+
+                    <div
+                        id="goal-risk-score"
+                        class="goal-risk-score"
+                    >
+                        {{ goal_risk.risk_score }}/100
+                    </div>
+
+                </div>
+
+                <div class="goal-risk-details">
+
+                    {% if goal_risk.days_remaining is not none %}
+
+                        <p>
+                            <strong>Days Remaining:</strong>
+                            {{ goal_risk.days_remaining }}
+                        </p>
+
+                    {% else %}
+
+                        <p>
+                            <strong>Days Remaining:</strong>
+                            Deadline unavailable
+                        </p>
+
+                    {% endif %}
+
+                    <p>
+                        <strong>Action Plan Progress:</strong>
+                        {{ goal_risk.plan_progress }}%
+                    </p>
+
+                    <p>
+                        <strong>Average Mission Completion:</strong>
+                        {{ goal_risk.average_completion }}%
+                    </p>
+
+                    <p id="goal-risk-message">
+                        {{ goal_risk.message }}
+                    </p>
+
+                </div>
+
+                {% if goal_risk.reasons %}
+
+                    <div class="goal-risk-reasons">
+
+                        <h4>Why this status?</h4>
+
+                        <ul>
+
+                            {% for reason in goal_risk.reasons %}
+
+                                <li>{{ reason }}</li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                {% else %}
+
+                    <p class="no-risk-message">
+                        ✅ No major risk factors detected.
+                    </p>
+
+                {% endif %}
+
+            </section>
+
+        {% endif %}
+
+        <!-- SMART RECOVERY COACH -->
+
+        {% if recovery_plan %}
+
+            <section
+                id="recovery-coach-section"
+                class="recovery-coach-card"
+                {% if not recovery_plan.active %}
+                    style="display: none;"
+                {% endif %}
+            >
+
+                <h2>🛟 Smart Recovery Coach</h2>
+
+                <h3>
+                    Recovery Mode:
+
+                    <span id="recovery-mode">
+                        {{ recovery_plan.mode }}
+                    </span>
+                </h3>
+
+                <p id="recovery-message">
+                    {{ recovery_plan.message }}
+                </p>
+
+                <div id="recovery-actions">
+
+                    {% for action in recovery_plan.actions %}
+
+                        <div class="recovery-action">
+
+                            <div class="recovery-action-number">
+                                {{ loop.index }}
+                            </div>
+
+                            <div class="recovery-action-content">
+
+                                <h4>{{ action.title }}</h4>
+
+                                <p>{{ action.purpose }}</p>
+
+                            </div>
+
+                            <span class="recovery-duration">
+                                ⏱ {{ action.duration }} min
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+        <!-- DAILY MISSIONS -->
+
+        {% if daily_missions %}
+
+            <hr>
+
+            <h2>🔥 Today's Mission</h2>
+
+            <section
+                id="daily-mission-section"
+                data-goal="{{ daily_missions.goal }}"
+                data-date="{{ daily_missions.date }}"
+            >
+
+                <p>
+                    <strong>Date:</strong>
+                    {{ daily_missions.date }}
+                </p>
+
+                <p>
+                    <strong>Experience Level:</strong>
+                    {{ daily_missions.experience_level }}
+                </p>
+
+                <p>
+                    <strong>Total Available Time:</strong>
+                    {{ daily_missions.total_time }} minutes
+                </p>
+
+                <!-- ADAPTIVE MISSION MODE -->
+
+                <div
+                    id="adaptive-mission-section"
+                    class="adaptive-mission-card"
+                >
+
+                    <h3>🧠 Adaptive Mission Mode</h3>
+
+                    <p>
+                        <strong>Current Mode:</strong>
+
+                        <span id="adaptation-mode">
+                            {{ daily_missions.adaptation_mode }}
+                        </span>
+                    </p>
+
+                    <p id="adaptation-message">
+                        {{ daily_missions.adaptation_message }}
+                    </p>
+
+                    {% if history_days < 3 %}
+
+                        <p id="dna-learning-progress">
+                            🧬 Action DNA Learning:
+                            {{ history_days }} / 3 days
+                        </p>
+
+                    {% else %}
+
+                        <p id="dna-learning-progress">
+                            ✅ Action DNA has enough history
+                            to personalize your missions.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+                <!-- MISSION PROGRESS -->
+
+                <div class="mission-progress-bar">
+                    <div id="mission-progress-fill"></div>
+                </div>
+
+                <p id="mission-progress-text">
+                    0 of {{ daily_missions.missions|length }}
+                    missions completed (0%)
+                </p>
+
+                <!-- MISSION LIST -->
+
+                <div id="mission-list">
+
+                    {% for mission in daily_missions.missions %}
+
+                        <div class="mission-card">
+
+                            <input
+                                type="checkbox"
+                                class="mission-checkbox"
+                                id="mission-{{ mission.id }}"
+                            >
+
+                            <label
+                                for="mission-{{ mission.id }}"
+                                class="mission-title"
+                            >
+                                {{ mission.title }}
+                            </label>
+
+                            <span class="mission-duration">
+                                ⏱ {{ mission.duration }} min
+                            </span>
+
+                            <!-- MISSION TAKEAWAY -->
+
+                            <div class="mission-takeaway-area">
+
+                                <label
+                                    for="takeaway-{{ mission.id }}"
+                                    class="mission-takeaway-label"
+                                >
+                                    💡 What did you learn?
+                                </label>
+
+                                <textarea
+                                    id="takeaway-{{ mission.id }}"
+                                    class="mission-takeaway"
+                                    data-mission-id="{{ mission.id }}"
+                                    placeholder="Write one useful takeaway from this mission..."
+                                    rows="2"
+                                ></textarea>
+
+                                <small class="takeaway-save-status">
+                                    Your takeaway is saved automatically.
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <!-- PROGRESS INTELLIGENCE -->
+
+            {% if progress_analysis %}
+
+                <h2>
+                    🧠 Daily Mission Progress Intelligence
+                </h2>
+
+                <section id="progress-intelligence">
+
+                    <div class="intelligence-score">
+
+                        <span id="intelligence-percentage">
+                            {{ progress_analysis.percentage }}%
+                        </span>
+
+                    </div>
+
+                    <div class="intelligence-details">
+
+                        <p>
+                            <strong>Status:</strong>
+
+                            <span id="intelligence-status">
+                                {{ progress_analysis.status }}
+                            </span>
+                        </p>
+
+                        <p id="intelligence-message">
+                            {{ progress_analysis.message }}
+                        </p>
+
+                    </div>
+
+                </section>
+
+            {% endif %}
+
+            <!-- DAILY PERFORMANCE HISTORY -->
+
+            <h2>📅 Daily Performance History</h2>
+
+            <section id="daily-history-section">
+
+                <p id="history-empty-message">
+                    Your daily performance history will appear here.
+                </p>
+
+                <div id="daily-history-list"></div>
+
+            </section>
+
+            <!-- ACTION DNA -->
+
+            <h2>🧬 Your Action DNA</h2>
+
+            <section id="action-dna-section">
+
+                <p id="action-dna-message">
+                    Complete your daily missions to build your Action DNA.
+                </p>
+
+                <div
+                    id="action-dna-results"
+                    style="display: none;"
+                >
+
+                    <div class="action-dna-card">
+
+                        <h3>📊 Average Completion</h3>
+
+                        <p id="action-dna-average">
+                            0%
+                        </p>
+
+                    </div>
+
+                    <div class="action-dna-card">
+
+                        <h3>🏆 Best Day</h3>
+
+                        <p id="action-dna-best-day">
+                            No data yet
+                        </p>
+
+                    </div>
+
+                    <div class="action-dna-card">
+
+                        <h3>🎯 Weakest Day</h3>
+
+                        <p id="action-dna-weakest-day">
+                            No data yet
+                        </p>
+
+                    </div>
+
+                    <div class="action-dna-card">
+
+                        <h3>💡 Personalized Insights</h3>
+
+                        <ul id="action-dna-insights"></ul>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        {% endif %}
+
+            <!-- AI END-OF-DAY REFLECTION -->
+
+        {% if daily_missions %}
+
+            <h2>✨ AI End-of-Day Reflection</h2>
+
+            <section
+                id="daily-reflection-section"
+                class="daily-reflection-card"
+            >
+
+                <p id="reflection-introduction">
+                    Complete your missions and add your takeaways.
+                    Your assistant will turn them into a personalized
+                    end-of-day reflection.
+                </p>
+
+                <button
+                    type="button"
+                    id="generate-reflection"
+                >
+                    Generate My Reflection
+                </button>
+
+                <p
+                    id="reflection-loading"
+                    style="display: none;"
+                >
+                    🧠 Analyzing your progress and learning...
+                </p>
+
+                <div
+                    id="reflection-results"
+                    style="display: none;"
+                >
+
+                    <h3>📊 Today’s Performance</h3>
+
+                    <p id="reflection-performance"></p>
+
+                    <h3>💡 What You Learned</h3>
+
+                    <p id="reflection-learning"></p>
+
+                    <h3>🎯 Your Next Focus</h3>
+
+                    <p id="reflection-next-focus"></p>
+
+                    <p
+                        id="reflection-motivation"
+                        class="reflection-motivation"
+                    ></p>
+
+                </div>
+
+                <p
+                    id="reflection-error"
+                    style="display: none;"
+                ></p>
+                <div id="reflection-history-section">
+                 <h3>📚 Reflection History</h3>
+
+                 <div id="reflection-history">
+                     <p>Your previous reflections will appear here.</p>
+                 </div>
+             </div>
+
+            </section>
+
+        {% endif %}    
+        
+        
+        
+        
+        
+        <!-- WEEKLY PROGRESS REPORT -->
+
+<section
+    id="weekly-report-section"
+    class="weekly-report-card"
+>
+    <h2>📈 AI Weekly Progress Report</h2>
+
+    <p>
+        Review your last seven days and discover your
+        highest-value focus for the coming week.
+    </p>
+
+    <button
+        type="button"
+        id="generate-weekly-report"
+    >
+        Generate Weekly Report
+    </button>
+
+    <p
+        id="weekly-report-loading"
+        style="display: none;"
+    >
+        🧠 Analyzing your weekly progress...
+    </p>
+
+    <p
+        id="weekly-report-error"
+        style="display: none;"
+    ></p>
+
+    <div
+        id="weekly-report-results"
+        style="display: none;"
+    >
+        <h3>📊 Weekly Performance</h3>
+        <p id="weekly-average"></p>
+
+        <h3>✅ Missions Completed</h3>
+        <p id="weekly-missions"></p>
+
+        <h3>🏆 Best Day</h3>
+        <p id="weekly-best-day"></p>
+
+        <h3>🎯 Weakest Day</h3>
+        <p id="weekly-weakest-day"></p>
+
+        <h3>📝 Weekly Learning</h3>
+        <ul id="weekly-learning"></ul>
+
+        <h3>🚀 Next Week’s Focus</h3>
+        <p id="weekly-next-focus"></p>
+
+        <p
+            id="weekly-status"
+            class="weekly-status"
+        ></p>
+    </div>
+</section>
+<!-- ACTION BUTTONS -->
+
+        <section class="action-buttons">
+
+            <button
+                type="button"
+                id="download-plan"
+            >
+                Download Plan
+            </button>
+
+            <button
+                type="button"
+                id="reset-progress"
+            >
+                Reset Progress
+            </button>
+
+        </section>
+
+    {% endif %}
+
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+﻿# Environment variables and secret API keys
+.env
+.env.*
+!.env.example
+
+# Local databases containing user accounts and password hashes
+*.db
+*.sqlite
+*.sqlite3
+instance/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Python caches and test output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# User-uploaded files
+uploads/*
+!uploads/.gitkeep
+
+# Local project backups and downloaded archives
+before_*_backup/
+*_backup/
+*.zip
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Editors
+.vscode/
+.idea/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+desktop.ini

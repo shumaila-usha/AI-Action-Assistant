@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deleted | AI Action Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}?v=2">
+</head>
+<body class="auth-page">
+    <main class="deleted-card">
+        <div class="deleted-icon">✓</div>
+        <h1>Account Deleted</h1>
+        <p>Your account and synchronized data were permanently removed.</p>
+        <a class="auth-primary-button deleted-link" href="{{ url_for('register') }}">Create a New Account</a>
+    </main>
+    <script>
+        try {
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+        } catch (error) {
+            // Storage may be unavailable in strict privacy mode.
+        }
+    </script>
+</body>
+</html>

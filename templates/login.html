@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AI Action Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}?v=2">
+</head>
+<body class="auth-page">
+    <main class="auth-shell">
+        <section class="auth-brand">
+            <span class="auth-logo">🚀</span>
+            <h1>AI Action Assistant</h1>
+            <p>Turn ambitious goals into consistent daily action.</p>
+            <ul>
+                <li>Adaptive daily missions</li>
+                <li>Focus analytics and Action DNA</li>
+                <li>Smart reminders and progress reports</li>
+            </ul>
+        </section>
+
+        <section class="auth-card">
+            <h2>Welcome Back</h2>
+            <p class="auth-subtitle">Sign in to continue your progress.</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="auth-alert {{ category }}" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <label for="email">Email address</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="you@example.com"
+                    required
+                    autofocus
+                >
+
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    autocomplete="current-password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <button type="submit" class="auth-primary-button">Sign In</button>
+            </form>
+
+            <p class="auth-switch">
+                New here?
+                <a href="{{ url_for('register') }}">Create your account</a>
+            </p>
+        </section>
+    </main>
+</body>
+</html>

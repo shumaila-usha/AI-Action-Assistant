@@ -1,0 +1,401 @@
+:root {
+    color-scheme: light;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background: #dceaff;
+    color: #172d55;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.auth-page {
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(255, 255, 255, 0.95), transparent 28%),
+        linear-gradient(135deg, #dceaff 0%, #b9d6ff 48%, #d9ddff 100%);
+}
+
+.auth-shell {
+    width: min(960px, 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    border-radius: 26px;
+    background: #ffffff;
+    box-shadow: 0 24px 65px rgba(23, 71, 181, 0.2);
+}
+
+.auth-brand {
+    padding: 56px 46px;
+    color: #ffffff;
+    background: linear-gradient(145deg, #245eea 0%, #4438d8 100%);
+}
+
+.auth-logo {
+    display: inline-grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 34px;
+}
+
+.auth-brand h1 {
+    margin: 24px 0 12px;
+    font-size: clamp(30px, 4vw, 43px);
+    line-height: 1.08;
+}
+
+.auth-brand p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+    opacity: 0.92;
+}
+
+.auth-brand ul {
+    margin: 30px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.auth-brand li {
+    margin: 15px 0;
+    font-weight: 650;
+}
+
+.auth-brand li::before {
+    content: "✓";
+    margin-right: 10px;
+    color: #bbf7d0;
+}
+
+.auth-card {
+    padding: 48px 46px;
+}
+
+.auth-card h2 {
+    margin: 0;
+    color: #1747b5;
+    font-size: 31px;
+}
+
+.auth-subtitle {
+    margin: 8px 0 25px;
+    color: #667792;
+}
+
+.auth-card label {
+    display: block;
+    margin: 17px 0 7px;
+    font-weight: 750;
+    color: #263e68;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #bfd3f5;
+    border-radius: 11px;
+    outline: none;
+    font: inherit;
+    color: #172d55;
+    background: #f9fbff;
+}
+
+.auth-card input:focus {
+    border-color: #315bea;
+    box-shadow: 0 0 0 4px rgba(49, 91, 234, 0.12);
+}
+
+.auth-primary-button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    background: linear-gradient(90deg, #2563eb, #4f46e5);
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 10px 22px rgba(49, 91, 234, 0.22);
+}
+
+.auth-primary-button:hover {
+    filter: brightness(1.06);
+}
+
+.auth-switch {
+    margin: 24px 0 0;
+    text-align: center;
+    color: #667792;
+}
+
+.auth-switch a {
+    color: #315bea;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.auth-alert {
+    margin: 14px 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.auth-alert.error {
+    color: #991b1b;
+    background: #fee2e2;
+}
+
+.auth-alert.success {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.account-bar {
+    max-width: 850px;
+    margin: 18px auto;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    border: 1px solid #bfd5ff;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #234173;
+}
+
+.account-user strong {
+    color: #1747b5;
+}
+
+.account-sync-status {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.account-sync-status.synced {
+    color: #166534;
+    background: #dcfce7;
+}
+
+.account-sync-status.saving {
+    color: #1e40af;
+    background: #dbeafe;
+}
+
+.account-sync-status.error {
+    color: #92400e;
+    background: #fef3c7;
+}
+
+.logout-form {
+    margin: 0;
+}
+
+.account-settings-button {
+    padding: 9px 15px;
+    border-radius: 9px;
+    color: #ffffff;
+    background: #315bea;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.logout-button {
+    padding: 9px 15px;
+    border: 0;
+    border-radius: 9px;
+    color: #ffffff;
+    background: #52637c;
+    font-weight: 750;
+    cursor: pointer;
+}
+
+.app-flash-list {
+    max-width: 850px;
+    margin: 10px auto;
+}
+
+body.settings-page {
+    min-height: 100vh;
+    margin: 0;
+    padding: 34px 20px;
+    background: linear-gradient(135deg, #dceaff 0%, #b9d6ff 48%, #d9ddff 100%);
+}
+
+.settings-shell {
+    width: min(820px, 100%);
+    margin: 0 auto;
+}
+
+.settings-header,
+.settings-card,
+.deleted-card {
+    border: 1px solid #c7d9f8;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 16px 42px rgba(23, 71, 181, 0.12);
+}
+
+.settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 30px;
+}
+
+.settings-header h1 {
+    display: inline;
+    margin: 0;
+    color: #1747b5;
+}
+
+.settings-header p,
+.settings-card p {
+    margin: 8px 0 0;
+    color: #667792;
+    line-height: 1.55;
+}
+
+.settings-icon {
+    margin-right: 8px;
+    font-size: 28px;
+}
+
+.settings-back {
+    flex: 0 0 auto;
+    padding: 11px 15px;
+    border-radius: 10px;
+    color: #1747b5;
+    background: #e8f0ff;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.settings-card {
+    margin-top: 20px;
+    padding: 27px 30px 30px;
+}
+
+.settings-card h2 {
+    margin: 0;
+    color: #1e3a70;
+}
+
+.settings-card label {
+    display: block;
+    margin: 17px 0 7px;
+    color: #263e68;
+    font-weight: 750;
+}
+
+.settings-card input {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #bfd3f5;
+    border-radius: 11px;
+    outline: none;
+    color: #172d55;
+    background: #f9fbff;
+    font: inherit;
+}
+
+.settings-card input:focus {
+    border-color: #315bea;
+    box-shadow: 0 0 0 4px rgba(49, 91, 234, 0.12);
+}
+
+.danger-zone {
+    border-color: #fecaca;
+}
+
+.danger-zone h2 {
+    color: #991b1b;
+}
+
+.danger-button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 11px;
+    color: #ffffff;
+    background: #c81e1e;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.deleted-card {
+    width: min(520px, 100%);
+    padding: 42px;
+    text-align: center;
+}
+
+.deleted-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #166534;
+    background: #dcfce7;
+    font-size: 34px;
+    font-weight: 900;
+}
+
+.deleted-card h1 {
+    color: #1747b5;
+}
+
+.deleted-card p {
+    color: #667792;
+}
+
+.deleted-link {
+    display: block;
+    text-decoration: none;
+}
+
+@media (max-width: 720px) {
+    .auth-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-brand,
+    .auth-card {
+        padding: 34px 26px;
+    }
+
+    .account-bar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .settings-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .settings-card,
+    .settings-header {
+        padding: 24px 20px;
+    }
+}
